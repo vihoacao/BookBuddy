@@ -46,8 +46,9 @@ fun HomeScreen(navController: NavController,modifier: Modifier=Modifier) {
     val context = LocalContext.current
     Scaffold(topBar = { TopAppBar(title = { Text("Home Screen")})}) {
         padding ->
-        Column(modifier.fillMaxSize().padding(padding).padding(16.dp)
-
+        Column(modifier.fillMaxSize().padding(padding).padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
             Button(onClick = {
                 Toast.makeText(context, "Click me!", Toast.LENGTH_SHORT).show()
