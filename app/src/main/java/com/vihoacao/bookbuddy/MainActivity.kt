@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vihoacao.bookbuddy.data.User
+import com.vihoacao.bookbuddy.viewmodel.BookBuddyViewModel
 import com.vihoacao.bookbuddy.views.AppNavigation
 
 //class MainActivity : ComponentActivity() {
@@ -108,6 +111,8 @@ import com.vihoacao.bookbuddy.views.AppNavigation
 
 
 class MainActivity : ComponentActivity() {
+    private val bookBuddyViewModel: BookBuddyViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -115,6 +120,8 @@ class MainActivity : ComponentActivity() {
             BookBuddyTheme {
                 AppNavigation()
                 //code for other tasks here...
+                //for example: insert a User record into User_Table
+                //bookBuddyViewModel.insert(User(username = "Tony", score = 100, duration = 50, date = 10000L))
             }
         }
     }

@@ -2,6 +2,7 @@
 
 package com.vihoacao.bookbuddy.views
 
+import android.media.MediaPlayer
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -51,6 +52,8 @@ fun HomeScreen(navController: NavController,modifier: Modifier=Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
             Button(onClick = {
+                val marimbaSong = MediaPlayer.create(context, R.raw.marimba)
+                marimbaSong.start()
                 Toast.makeText(context, "Click me!", Toast.LENGTH_SHORT).show()
                 navController.navigate(route = "second")
             }) {
