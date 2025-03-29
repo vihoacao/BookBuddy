@@ -45,6 +45,8 @@ fun AppNavigation(){
 @Composable
 fun HomeScreen(navController: NavController,modifier: Modifier=Modifier) {
     val context = LocalContext.current
+    val marimbaSong = MediaPlayer.create(context, R.raw.marimba)
+    val merengueSong = MediaPlayer.create(context, R.raw.merengue)
     Scaffold(topBar = { TopAppBar(title = { Text("Home Screen")})}) {
         padding ->
         Column(modifier.fillMaxSize().padding(padding).padding(16.dp),
@@ -52,7 +54,6 @@ fun HomeScreen(navController: NavController,modifier: Modifier=Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
             Button(onClick = {
-                val marimbaSong = MediaPlayer.create(context, R.raw.marimba)
                 marimbaSong.start()
                 Toast.makeText(context, "Click me!", Toast.LENGTH_SHORT).show()
                 navController.navigate(route = "second")
@@ -62,8 +63,10 @@ fun HomeScreen(navController: NavController,modifier: Modifier=Modifier) {
             Image(painter = painterResource(R.drawable.dice_1),
                 contentDescription = "Dice 1",
                 modifier.size(100.dp)
-               .clickable { navController.navigate(route = "second") }
-            )
+               .clickable {
+                   navController.navigate(route = "second")
+                   merengueSong.start()
+               } )
         }
     }
 }

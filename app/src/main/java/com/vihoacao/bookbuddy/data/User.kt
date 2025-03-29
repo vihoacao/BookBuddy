@@ -9,12 +9,9 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val username: String,
-    val level: String = "1",
-    val score: Int = 0,
-    val duration: Int = 0,
-    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP") val date: Long = System.currentTimeMillis()
+    val name: String,
+    val email: String,
+    val password: String,
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
+    val dateCreated: Long = System.currentTimeMillis()
 )
-{
-
-}

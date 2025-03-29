@@ -7,26 +7,27 @@ import androidx.room.RoomDatabase
 
 //Room Database: Create the database instance.
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(
+    entities = [User::class, Book::class, Category::class],
+    version = 2, // Updated version to 2 for schema changes
+    exportSchema = false
+)
 abstract class BookBuddyDB : RoomDatabase() {
     abstract fun bookBuddyDao(): BookBuddyDao
-    //a companion object is similar to Java static declarations.
-    //adding companion to the object declaration allows for adding
-    // the "static" functionality to an object
-    // used to create singleton object
 
     companion object {
         @Volatile
         private var INSTANCE: BookBuddyDB? = null
 
         fun getDatabase(context: Context): BookBuddyDB {
-            //?: takes the right-hand value if the left-hand value is null (the elvis operator)
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     BookBuddyDB::class.java,
-                    "user_database"
-                ).build()
+                    "bookbuddy_database"
+                )
+                    .fallbackToDestructiveMigration() // Handles migration safely by recreating the database
+                    .build()
                 INSTANCE = instance
                 instance
             }
