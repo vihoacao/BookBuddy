@@ -63,6 +63,17 @@ fun LoginScreen(navController: NavController? = null) {
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6F5C57))
             ) {
                 Text("Login", color = Color.White)
+
+            }
+            Spacer(modifier = Modifier.height(26.dp))
+            Text("Don’t have an account?", fontSize = 14.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = { navController?.navigate("register") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6F5C57))
+            ) {
+                Text("Sign Up", color = Color.White)
             }
         }
     }
