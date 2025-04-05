@@ -25,6 +25,10 @@ interface BookBuddyDao {
     @Update
     suspend fun updateUser(user: User)
 
+    // New: Login function – returns the matching user or null if not found.
+    @Query("SELECT * FROM user_table WHERE email = :email AND password = :password LIMIT 1")
+    suspend fun loginUser(email: String, password: String): User?
+
     // ---------- BOOK METHODS ----------
     @Insert
     suspend fun insertBook(book: Book)

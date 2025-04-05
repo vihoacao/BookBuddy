@@ -13,9 +13,6 @@ class BookBuddyViewModel(application: Application) : AndroidViewModel(applicatio
     // ---------- USER METHODS ----------
     val allUsers: LiveData<List<User>> = bookBuddyDao.getAllUsersLiveData()
 
-//    fun insert(user: User) = viewModelScope.launch {
-//        bookBuddyDao.insertUser(user)
-//    }
     fun insertUser(user: User) = viewModelScope.launch {
         bookBuddyDao.insertUser(user)
     }
@@ -33,6 +30,11 @@ class BookBuddyViewModel(application: Application) : AndroidViewModel(applicatio
         bookBuddyDao.deleteAllUsers()
     }
 
+    // New: Login function that verifies user credentials.
+    fun loginUser(email: String, password: String, callback: (User?) -> Unit) = viewModelScope.launch {
+        val user = bookBuddyDao.loginUser(email, password)
+        callback(user)
+    }
 
     // ---------- BOOK METHODS ----------
     // Retrieve all books
