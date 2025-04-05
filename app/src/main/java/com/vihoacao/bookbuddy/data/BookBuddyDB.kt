@@ -40,6 +40,7 @@ abstract class BookBuddyDB : RoomDatabase() {
                                 // Insert categories
                                 insertCategory(Category(name = "Fiction"))
                                 insertCategory(Category(name = "Drama"))
+                                insertCategory(Category(name = "Classic"))
                                 // Insert sample books
                                 insertBook(
                                     Book(
@@ -56,7 +57,25 @@ abstract class BookBuddyDB : RoomDatabase() {
                                         category = "Drama",
                                         author = "Hanya Yanagihara",
                                         description = "A deeply emotional novel.",
-                                        bookImage = "https://m.media-amazon.com/images/I/71kW0ESYl5L.jpg"
+                                        bookImage = "https://www.harryhartog.com.au/cdn/shop/products/9781447294832.jpg?v=1677551418&width=480"
+                                    )
+                                )
+                                insertBook(
+                                    Book(
+                                        name = "Never Let Me Go",
+                                        category = "Fiction",
+                                        author = "Kazuo Ishiguro",
+                                        description = "A deeply emotional novel.",
+                                        bookImage = "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1353048590i/6334.jpg"
+                                    )
+                                )
+                                insertBook(
+                                    Book(
+                                        name = "The Bell Jar",
+                                        category = "Classic",
+                                        author = "Sylvia Path",
+                                        description = "A deeply emotional novel.",
+                                        bookImage = "https://m.media-amazon.com/images/I/81r5tri1zXL._UF894,1000_QL80_.jpg"
                                     )
                                 )
                             }

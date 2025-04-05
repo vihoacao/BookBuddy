@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -32,17 +33,19 @@ fun HomeScreen(
     // Observe all books from the ViewModel.
     val books = bookBuddyViewModel.allBooks.observeAsState(initial = emptyList()).value
 
-    // Filter books by category.
+    // Filter books by category: "Drama" and "Fiction"
     val dramaBooks = books.filter { it.category.equals("Drama", ignoreCase = true) }
     val fictionBooks = books.filter { it.category.equals("Fiction", ignoreCase = true) }
+    val classicBooks = books.filter { it.category.equals("Classic", ignoreCase = true) }
 
-    // Make the entire screen scrollable
+
+    // Make the entire screen scrollable with extra top padding.
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(16.dp)
+            .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
         // Welcome text
         Text(
@@ -55,23 +58,20 @@ fun HomeScreen(
             fontSize = 16.sp,
             color = Color.Gray
         )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Currently Reading section (all books)
-        SectionTitle("Currently Reading")
-        BookRow(books = books, navController = navController)
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         // Drama section
         SectionTitle("Drama")
-        BookRow(books = dramaBooks, navController = navController)
+        BookRow(books = dramaBooks, navController = navController, imageSize = 140.dp)
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         // Fiction section
         SectionTitle("Fiction")
-        BookRow(books = fictionBooks, navController = navController)
+        BookRow(books = fictionBooks, navController = navController, imageSize = 140.dp)
+        // Clasic section
+        SectionTitle("Classic")
+        BookRow(books = fictionBooks, navController = navController, imageSize = 140.dp)
     }
 }
 
@@ -88,25 +88,39 @@ fun SectionTitle(title: String) {
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+/**
+ * A reusable horizontal row of books that accepts an imageSize of type Dp.
+ */
 @Composable
-fun BookRow(books: List<Book>, navController: NavController? = null) {
+fun BookRow(
+    books: List<Book>,
+    navController: NavController? = null,
+    imageSize: Dp
+) {
     LazyRow {
         items(books) { book ->
-            BookItem(book = book, navController = navController)
+            BookItem(book = book, navController = navController, imageSize = imageSize)
         }
     }
 }
 
+/**
+ * A single book item that displays the book's image, title, and author.
+ */
 @Composable
-fun BookItem(book: Book, navController: NavController? = null) {
+fun BookItem(
+    book: Book,
+    navController: NavController? = null,
+    imageSize: Dp
+) {
     Column(
         modifier = Modifier
-            .width(120.dp) // Keep original width
+            .width(imageSize)
             .padding(8.dp)
             .clickable { navController?.navigate("bookDetailScreen/${book.id}") },
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
-        // Remove card shadow by setting 0 dp elevation and transparent container
+        // Book image without card shadow.
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent)
@@ -114,13 +128,11 @@ fun BookItem(book: Book, navController: NavController? = null) {
             AsyncImage(
                 model = book.bookImage,
                 contentDescription = book.name,
-                modifier = Modifier.size(120.dp)
+                modifier = Modifier.size(imageSize)
             )
         }
-
         Spacer(modifier = Modifier.height(2.dp))
-
-        // Slightly reduce line spacing by specifying lineHeight close to fontSize
+        // Book title
         Text(
             text = book.name,
             fontWeight = FontWeight.Bold,
@@ -128,9 +140,8 @@ fun BookItem(book: Book, navController: NavController? = null) {
             style = TextStyle(lineHeight = 16.sp),
             color = MaterialTheme.colorScheme.onBackground
         )
-
         Spacer(modifier = Modifier.height(2.dp))
-
+        // Book author
         Text(
             text = "by ${book.author}",
             fontSize = 12.sp,
