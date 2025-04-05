@@ -13,7 +13,7 @@ import com.vihoacao.bookbuddy.viewmodel.BookBuddyViewModel
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "myBookScreen") {
         composable(route = "login") {
             LoginScreen(navController)
         }
@@ -24,16 +24,23 @@ fun AppNavigation() {
         composable(route = "register") {
             RegisterScreen(navController)
         }
-        // New route for BookDetailScreen, accepting a bookId as argument.
+        // Route for BookDetailScreen accepting a bookId argument.
         composable(
             route = "bookDetailScreen/{bookId}",
             arguments = listOf(navArgument("bookId") { type = NavType.IntType })
         ) { backStackEntry ->
             val bookId = backStackEntry.arguments?.getInt("bookId") ?: 0
-            // Get the ViewModel instance, or you could pass it via a higher scope.
             val bookBuddyViewModel: BookBuddyViewModel = viewModel()
             BookDetailScreen(
                 bookId = bookId,
+                navController = navController,
+                bookBuddyViewModel = bookBuddyViewModel
+            )
+        }
+        // New route for MyBookScreen
+        composable(route = "myBookScreen") {
+            val bookBuddyViewModel: BookBuddyViewModel = viewModel()
+            MyBookScreen(
                 navController = navController,
                 bookBuddyViewModel = bookBuddyViewModel
             )

@@ -71,7 +71,7 @@ fun HomeScreen(
         BookRow(books = fictionBooks, navController = navController, imageSize = 140.dp)
         // Clasic section
         SectionTitle("Classic")
-        BookRow(books = fictionBooks, navController = navController, imageSize = 140.dp)
+        BookRow(books = classicBooks, navController = navController, imageSize = 140.dp)
     }
 }
 
