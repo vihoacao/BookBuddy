@@ -80,7 +80,7 @@ fun RegisterScreen(navController: NavController? = null) {
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(
-                onClick = { navController?.navigate("register") },
+                onClick = { navController?.navigate("home") },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6F5C57))
             ) {
