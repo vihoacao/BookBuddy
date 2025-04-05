@@ -25,5 +25,6 @@ data class Book(
     val author: String,
     val description: String,
     @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
-    val dateAdded: Long = System.currentTimeMillis()
+    val dateAdded: Long = System.currentTimeMillis(),
+    val bookImage: String // Store URL or URI of the book cover image
 )

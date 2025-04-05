@@ -4,35 +4,71 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.vihoacao.bookbuddy.data.BookBuddyDB
-import com.vihoacao.bookbuddy.data.BookBuddyDao
-import com.vihoacao.bookbuddy.data.User
+import com.vihoacao.bookbuddy.data.*
 import kotlinx.coroutines.launch
 
 class BookBuddyViewModel(application: Application) : AndroidViewModel(application) {
     private val bookBuddyDao: BookBuddyDao = BookBuddyDB.getDatabase(application).bookBuddyDao()
 
-    // Retrieve all User records as LiveData for UI observation
+    // ---------- USER METHODS ----------
     val allUsers: LiveData<List<User>> = bookBuddyDao.getAllUsersLiveData()
 
-    // Insert a new user
-    fun insert(user: User) = viewModelScope.launch {
+//    fun insert(user: User) = viewModelScope.launch {
+//        bookBuddyDao.insertUser(user)
+//    }
+    fun insertUser(user: User) = viewModelScope.launch {
         bookBuddyDao.insertUser(user)
     }
 
-    // Update an existing user
     fun updateUser(user: User) = viewModelScope.launch {
         bookBuddyDao.updateUser(user)
     }
 
-    // Get a user by ID
     fun getUserById(id: Int, callback: (User?) -> Unit) = viewModelScope.launch {
         val user = bookBuddyDao.getUserById(id)
         callback(user)
     }
 
-    // Delete all users
     fun deleteAllUsers() = viewModelScope.launch {
         bookBuddyDao.deleteAllUsers()
+    }
+
+
+    // ---------- BOOK METHODS ----------
+    // Retrieve all books
+    val allBooks: LiveData<List<Book>> = bookBuddyDao.getAllBooks()
+
+    // Insert a new book
+    fun insertBook(book: Book) = viewModelScope.launch {
+        bookBuddyDao.insertBook(book)
+    }
+
+    // Get book by ID
+    fun getBookById(id: Int, callback: (Book?) -> Unit) = viewModelScope.launch {
+        val book = bookBuddyDao.getBookById(id)
+        callback(book)
+    }
+
+    fun getBooksByCategory(categoryName: String): LiveData<List<Book>> {
+        return bookBuddyDao.getBooksByCategory(categoryName)
+    }
+
+    fun updateBook(book: Book) = viewModelScope.launch {
+        bookBuddyDao.updateBook(book)
+    }
+
+    fun deleteBookById(id: Int) = viewModelScope.launch {
+        bookBuddyDao.deleteBookById(id)
+    }
+
+    // ---------- CATEGORY METHODS ----------
+    val allCategories: LiveData<List<Category>> = bookBuddyDao.getAllCategories()
+
+    fun insertCategory(category: Category) = viewModelScope.launch {
+        bookBuddyDao.insertCategory(category)
+    }
+
+    fun deleteCategory(name: String) = viewModelScope.launch {
+        bookBuddyDao.deleteCategory(name)
     }
 }
