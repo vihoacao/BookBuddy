@@ -45,5 +45,10 @@ fun AppNavigation() {
                 bookBuddyViewModel = bookBuddyViewModel
             )
         }
+
+        composable(route = "addBookScreen") {
+            val bookBuddyViewModel: BookBuddyViewModel = viewModel()
+            AddNewBookScreen(navController, bookBuddyViewModel)
+        }
     }
 }

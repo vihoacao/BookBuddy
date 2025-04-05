@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.vihoacao.bookbuddy.views
 
 import androidx.compose.foundation.clickable
@@ -20,7 +21,6 @@ import com.vihoacao.bookbuddy.viewmodel.BookBuddyViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyBookScreen(
     navController: NavController? = null,
@@ -45,7 +45,7 @@ fun MyBookScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            // Header row: My books count and Edit button
+            // Header row: My books count with Edit and Add buttons
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -57,11 +57,29 @@ fun MyBookScreen(
                     text = "My books: ${allBooks.size}",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
-                Text(
-                    text = "Edit",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
+                // Row for action buttons
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Edit",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray,
+                        modifier = Modifier.clickable {
+                            // Handle Edit action here
+                        }
+                    )
+                    Text(
+                        text = "Add",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray,
+                        modifier = Modifier.clickable {
+                            // Navigate to your AddBookScreen (or handle add action)
+                            navController?.navigate("addBookScreen")
+                        }
+                    )
+                }
             }
 
             // Table header: Title | Categories | Date

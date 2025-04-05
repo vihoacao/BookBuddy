@@ -101,10 +101,9 @@ fun RegisterScreen(
                         bookBuddyViewModel.insertUser(User(name = name, email = email, password = password))
                         // Clear error message
                         errorMessage = ""
-                        // Navigate to home
-                        navController?.navigate("home") {
-                            // Optionally clear backstack
-                            popUpTo("login") { inclusive = true }
+                        // Navigate back to the login screen
+                        navController?.navigate("login") {
+                            popUpTo("register") { inclusive = true }
                         }
                     }
                 },
