@@ -82,9 +82,11 @@ private fun BookDetailContent(modifier: Modifier = Modifier, book: Book) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        // Book cover image
+        // Book cover image centered horizontally
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .size(250.dp)
+                .align(Alignment.CenterHorizontally),  // Centers the card horizontally
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent)
         ) {
@@ -92,8 +94,7 @@ private fun BookDetailContent(modifier: Modifier = Modifier, book: Book) {
                 model = book.bookImage,
                 contentDescription = book.name,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 200.dp)
+                    .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
                 placeholder = AsyncImagePainter.State.Empty.painter,
                 error = AsyncImagePainter.State.Empty.painter
@@ -105,9 +106,7 @@ private fun BookDetailContent(modifier: Modifier = Modifier, book: Book) {
         // Title & author
         Text(
             text = book.name,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.Bold
-            )
+            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -145,8 +144,7 @@ private fun BookDetailContent(modifier: Modifier = Modifier, book: Book) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "I have not yet written a review for this book. " +
-                    "You can add logic here to display user reviews or your own notes.",
+            text = "I have not yet written a review for this book. ",
             style = MaterialTheme.typography.bodyMedium
         )
 
