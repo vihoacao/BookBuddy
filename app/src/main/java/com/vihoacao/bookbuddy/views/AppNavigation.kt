@@ -21,7 +21,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
     // You can now use currentRoute(navController) anywhere in this file.
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "login") {
         composable(route = "login") {
             LoginScreen(navController)
         }
