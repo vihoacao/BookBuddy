@@ -31,7 +31,9 @@ fun SearchScreen(
     var errorMessage by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold { padding ->
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) } // Added bottom navigation bar here.
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
