@@ -6,11 +6,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,51 +24,56 @@ import com.vihoacao.bookbuddy.viewmodel.BookBuddyViewModel
 
 @Composable
 fun HomeScreen(
-    navController: NavController? = null,
+    navController: NavController,
     bookBuddyViewModel: BookBuddyViewModel
 ) {
     // Observe all books from the ViewModel.
     val books = bookBuddyViewModel.allBooks.observeAsState(initial = emptyList()).value
 
-    // Filter books by category: "Drama" and "Fiction"
+    // Filter books by category: "Drama", "Fiction", and "Classic"
     val dramaBooks = books.filter { it.category.equals("Drama", ignoreCase = true) }
     val fictionBooks = books.filter { it.category.equals("Fiction", ignoreCase = true) }
     val classicBooks = books.filter { it.category.equals("Classic", ignoreCase = true) }
 
+    // Wrap content in a Scaffold to include a bottom bar.
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController = navController) }
+    ) { innerPadding ->
+        // Make the entire content scrollable.
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(innerPadding)
+                .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
+        ) {
+            // Welcome text
+            Text(
+                text = "Welcome,",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Let's continue your journey",
+                fontSize = 16.sp,
+                color = Color.Gray
+            )
+            Spacer(modifier = Modifier.height(24.dp))
 
-    // Make the entire screen scrollable with extra top padding.
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
-    ) {
-        // Welcome text
-        Text(
-            text = "Welcome,",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "Let's continue your journey",
-            fontSize = 16.sp,
-            color = Color.Gray
-        )
-        Spacer(modifier = Modifier.height(24.dp))
+            // Drama section
+            SectionTitle("Drama")
+            BookRow(books = dramaBooks, navController = navController, imageSize = 140.dp)
+            Spacer(modifier = Modifier.height(24.dp))
 
-        // Drama section
-        SectionTitle("Drama")
-        BookRow(books = dramaBooks, navController = navController, imageSize = 140.dp)
+            // Fiction section
+            SectionTitle("Fiction")
+            BookRow(books = fictionBooks, navController = navController, imageSize = 140.dp)
+            Spacer(modifier = Modifier.height(24.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Fiction section
-        SectionTitle("Fiction")
-        BookRow(books = fictionBooks, navController = navController, imageSize = 140.dp)
-        // Clasic section
-        SectionTitle("Classic")
-        BookRow(books = classicBooks, navController = navController, imageSize = 140.dp)
+            // Classic section
+            SectionTitle("Classic")
+            BookRow(books = classicBooks, navController = navController, imageSize = 140.dp)
+        }
     }
 }
 
@@ -94,7 +96,7 @@ fun SectionTitle(title: String) {
 @Composable
 fun BookRow(
     books: List<Book>,
-    navController: NavController? = null,
+    navController: NavController,
     imageSize: Dp
 ) {
     LazyRow {
@@ -110,14 +112,14 @@ fun BookRow(
 @Composable
 fun BookItem(
     book: Book,
-    navController: NavController? = null,
+    navController: NavController,
     imageSize: Dp
 ) {
     Column(
         modifier = Modifier
             .width(imageSize)
             .padding(8.dp)
-            .clickable { navController?.navigate("bookDetailScreen/${book.id}") },
+            .clickable { navController.navigate("bookDetailScreen/${book.id}") },
         horizontalAlignment = Alignment.Start
     ) {
         // Book image without card shadow.

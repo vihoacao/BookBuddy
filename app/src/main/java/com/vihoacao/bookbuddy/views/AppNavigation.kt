@@ -1,19 +1,27 @@
 package com.vihoacao.bookbuddy.views
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.vihoacao.bookbuddy.viewmodel.BookBuddyViewModel
+
+// Helper function to obtain the current route
+@Composable
+fun currentRoute(navController: NavController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
+}
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    // You can now use currentRoute(navController) anywhere in this file.
 
-    NavHost(navController = navController, startDestination = "myBookScreen") {
+    NavHost(navController = navController, startDestination = "home") {
         composable(route = "login") {
             LoginScreen(navController)
         }
@@ -23,6 +31,11 @@ fun AppNavigation() {
         }
         composable(route = "register") {
             RegisterScreen(navController)
+        }
+        // Route for SearchScreen accepting no arguments
+        composable(route = "searchScreen") {
+            val bookBuddyViewModel: BookBuddyViewModel = viewModel()
+            SearchScreen(navController, bookBuddyViewModel)
         }
         // Route for BookDetailScreen accepting a bookId argument.
         composable(
@@ -37,7 +50,7 @@ fun AppNavigation() {
                 bookBuddyViewModel = bookBuddyViewModel
             )
         }
-        // New route for MyBookScreen
+        // Route for MyBookScreen
         composable(route = "myBookScreen") {
             val bookBuddyViewModel: BookBuddyViewModel = viewModel()
             MyBookScreen(
@@ -45,7 +58,7 @@ fun AppNavigation() {
                 bookBuddyViewModel = bookBuddyViewModel
             )
         }
-
+        // Route for AddNewBookScreen
         composable(route = "addBookScreen") {
             val bookBuddyViewModel: BookBuddyViewModel = viewModel()
             AddNewBookScreen(navController, bookBuddyViewModel)

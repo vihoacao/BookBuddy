@@ -48,6 +48,9 @@ interface BookBuddyDao {
     @Update
     suspend fun updateBook(book: Book)
 
+    @Query("SELECT * FROM book_table WHERE LOWER(name) = LOWER(:bookName) LIMIT 1")
+    suspend fun findBookByName(bookName: String): Book?
+
     // ---------- CATEGORY METHODS ----------
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategory(category: Category)

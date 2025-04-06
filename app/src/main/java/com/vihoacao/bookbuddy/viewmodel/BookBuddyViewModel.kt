@@ -63,6 +63,22 @@ class BookBuddyViewModel(application: Application) : AndroidViewModel(applicatio
         bookBuddyDao.deleteBookById(id)
     }
 
+    fun findBookByName(bookName: String, callback: (Book?) -> Unit) {
+        viewModelScope.launch {
+            try {
+                // Ensure you have a DAO method defined like:
+                // @Query("SELECT * FROM book_table WHERE LOWER(name) = LOWER(:bookName) LIMIT 1")
+                // suspend fun findBookByName(bookName: String): Book?
+                val book = bookBuddyDao.findBookByName(bookName)
+                callback(book)
+            } catch (e: Exception) {
+                callback(null)
+            }
+        }
+    }
+
+
+
     // ---------- CATEGORY METHODS ----------
     val allCategories: LiveData<List<Category>> = bookBuddyDao.getAllCategories()
 
