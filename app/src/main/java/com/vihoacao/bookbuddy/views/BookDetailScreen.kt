@@ -49,6 +49,9 @@ fun BookDetailScreen(
                     }
                 }
             )
+        },
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
         }
     ) { innerPadding ->
         if (book == null) {
@@ -149,7 +152,7 @@ private fun BookDetailContent(modifier: Modifier = Modifier, book: Book) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Center the two buttons, space by 16dp, set custom color
+        // Center the two buttons, spaced by 16dp, with custom color.
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center

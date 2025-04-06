@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.vihoacao.bookbuddy.data.Book
@@ -37,6 +37,11 @@ fun MyBookScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
+        },
+        bottomBar = {
+            navController?.let {
+                BottomNavigationBar(navController = it)
+            }
         }
     ) { innerPadding ->
         Column(
@@ -45,7 +50,7 @@ fun MyBookScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            // Header row: My books count with Edit and Add buttons
+            // Header row: My books count with Edit, Add, and Delete buttons
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -77,6 +82,15 @@ fun MyBookScreen(
                         modifier = Modifier.clickable {
                             // Navigate to your AddBookScreen (or handle add action)
                             navController?.navigate("addBookScreen")
+                        }
+                    )
+                    Text(
+                        text = "Delete",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray,
+                        modifier = Modifier.clickable {
+                            // Navigate to DeleteBookScreen
+                            navController?.navigate("deleteBookScreen")
                         }
                     )
                 }

@@ -1,22 +1,25 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.vihoacao.bookbuddy.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.vihoacao.bookbuddy.data.Book
 import com.vihoacao.bookbuddy.viewmodel.BookBuddyViewModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddNewBookScreen(
     navController: NavController? = null,
@@ -31,13 +34,32 @@ fun AddNewBookScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold { padding ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Add a New Book") },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        // Navigate back. If you want to go directly to MyBookScreen,
+                        // you can use: navController?.navigate("myBookScreen")
+                        navController?.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(24.dp),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Add a new book",
@@ -116,7 +138,6 @@ fun AddNewBookScreen(
                     ) {
                         errorMessage = "All fields are required."
                     } else {
-                        // Insert the new book in a coroutine
                         coroutineScope.launch {
                             bookBuddyViewModel?.insertBook(
                                 Book(
@@ -127,7 +148,7 @@ fun AddNewBookScreen(
                                     bookImage = imageUrl
                                 )
                             )
-                            // Navigate back or to another screen
+                            // Navigate back after adding the book.
                             navController?.popBackStack()
                         }
                     }

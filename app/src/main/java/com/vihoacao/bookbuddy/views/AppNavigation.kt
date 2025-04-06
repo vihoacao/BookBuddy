@@ -63,5 +63,13 @@ fun AppNavigation() {
             val bookBuddyViewModel: BookBuddyViewModel = viewModel()
             AddNewBookScreen(navController, bookBuddyViewModel)
         }
+        // New route for DeleteBookScreen
+        composable(route = "deleteBookScreen") {
+            val bookBuddyViewModel: BookBuddyViewModel = viewModel()
+            DeleteBookScreen(
+                navController = navController,
+                bookBuddyViewModel = bookBuddyViewModel
+            )
+        }
     }
 }
